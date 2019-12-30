@@ -6,9 +6,9 @@ import java.util.Queue;
 public class BreadthFirstTraversal implements Traversal {
 
 	public <T> String traverse(Node<T> root) {
-		
+
 		String information = "";
-		
+
 		Queue<Node<T>> q = new LinkedList<Node<T>>();
 		q.add(root);
 
@@ -20,7 +20,7 @@ public class BreadthFirstTraversal implements Traversal {
 			if (node.getRight() != null)
 				q.add(node.getRight());
 		}
-		return information.substring(0, information.length()-1);
+		return information.substring(0, information.length() - 1);
 	}
 
 	private <T> String processNode(Node<T> node) {

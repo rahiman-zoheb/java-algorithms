@@ -31,7 +31,8 @@ public class MinHeap<T extends Comparable> extends Heap<T> {
 			return;
 		}
 
-		// If current element is greater than element at smaller index, swap and sift down
+		// If current element is greater than element at smaller index, swap and sift
+		// down
 		if (getElementAtIndex(index).compareTo(getElementAtIndex(smallerIndex)) > 0) {
 			swap(index, smallerIndex);
 			siftDown(smallerIndex);

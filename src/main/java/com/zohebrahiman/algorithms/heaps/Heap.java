@@ -1,11 +1,12 @@
 package com.zohebrahiman.algorithms.heaps;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 @SuppressWarnings("rawtypes")
 public abstract class Heap<T extends Comparable> {
 
-	private static int MAX_SIZE = 100;
+	private static int MAX_SIZE = 10000;
 	private T[] array;
 	private int count = 0;
 
@@ -77,18 +78,65 @@ public abstract class Heap<T extends Comparable> {
 		return rightChildIndex;
 	}
 
+	protected int getLeftChildIndex(int index, int endIndex) {
+		int leftChildIndex = 2 * index + 1;
+		leftChildIndex = leftChildIndex > endIndex ? -1 : leftChildIndex;
+		return leftChildIndex;
+	}
+
+	protected int getRightChildIndex(int index, int endIndex) {
+		int rightChildIndex = 2 * index + 2;
+		rightChildIndex = rightChildIndex > endIndex ? -1 : rightChildIndex;
+		return rightChildIndex;
+	}
+
 	protected int getParentIndex(int index) {
-		if (index < 0 || index >= count) {
+		return getParentIndex(index, count - 1);
+	}
+
+	protected int getParentIndex(int index, int endIndex) {
+		if (index < 0 || index > endIndex) {
 			return -1;
 		}
 
 		return (index - 1) / 2;
 	}
 
-	protected void swap(int j, int k) {
+	public T[] getArray() {
+		return array;
+	}
+
+	public void setArray(T[] array) {
+		this.array = array;
+		count = array.length;
+	}
+
+	public void swap(int j, int k) {
 		T temp = array[j];
 		array[j] = array[k];
 		array[k] = temp;
+	}
+
+	public void percolateDown(int index, int endIndex) {
+		int leftChildIndex = getLeftChildIndex(index, endIndex);
+		int rightChildIndex = getRightChildIndex(index, endIndex);
+
+		if (leftChildIndex != -1 && getElementAtIndex(leftChildIndex).compareTo(getElementAtIndex(index)) > 0) {
+			swap(leftChildIndex, index);
+			percolateDown(leftChildIndex, endIndex);
+		}
+		if (rightChildIndex != -1 && getElementAtIndex(rightChildIndex).compareTo(getElementAtIndex(index)) > 0) {
+			swap(rightChildIndex, index);
+			percolateDown(rightChildIndex, endIndex);
+		}
+	}
+
+	public void heapify(int endIndex) {
+		int index = getParentIndex(endIndex, endIndex);
+		while (index >= 0) {
+			percolateDown(index, endIndex);
+			index--;
+		}
 	}
 
 }
